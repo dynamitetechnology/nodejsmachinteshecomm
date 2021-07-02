@@ -60,3 +60,48 @@ app.use('/', authenticateToken, refreshToken, dashboardRouter)
 		console.log('server started at ', port);
 	})
 })();
+
+
+// function setUserData(req, res, next) {
+// 	if (req.cookies.token) {
+// 		let redisDb = req.app.locals.redisdb
+// 		redisDb.hmget(req.cookies.token,  'mobile', 'email', async function (err, obj) {
+// 			if (err) throw err;
+
+// 			let response = await obj;
+// 			if (response[0] != null) {
+// 				res.locals.userIsLoggedIn = true;
+// 				res.locals.mobile = response[0];
+// 				res.locals.email = response[1];
+// 				next();
+
+// 			} else {
+// 				res.locals.userIsLoggedIn = false;
+// 				next();
+// 			}
+// 		})
+// 	} else {
+// 		res.locals.userIsLoggedIn = false;
+// 		next();
+// 	}
+// }
+
+// function loginRequired(req, res, next) {
+// 	if (req.cookies.token) {
+// 		let redisDb = req.app.locals.redisdb
+// 		redisDb.hmget(req.cookies.token, 'email', 'mobile', async function (err, obj) {
+// 			if (err) throw err;
+// 			let response = await obj;
+// 			if (response[0] != null || response[0] != undefined) {
+
+// 				next();
+
+// 			} else {
+// 				res.redirect("login")
+// 			}
+// 		})
+// 	} else {
+// 		res.redirect("login")
+// 	}
+
+// }

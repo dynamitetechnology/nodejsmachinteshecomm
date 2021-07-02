@@ -33,6 +33,8 @@ check('password', 'password incorrect').exists().notEmpty().trim().isEmail().nor
 router.get('/regpage', controller.getRegPage);
 router.post('/register',controller.register)
 
+
+
 // router.post('/register', [
 //     check('name', 'Name Must Not Be Eempty').exists().notEmpty().trim().isLength({min: 2}).escape(),
 //     check('phone', 'Phone Number Must Not Be Empty.').exists().notEmpty().trim().escape(),

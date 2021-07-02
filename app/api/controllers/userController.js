@@ -29,6 +29,23 @@ module.exports = {
 
     })();},
 
+    dashboard:(req, res, next) => {
+        (async () => {
+            let db = req.app.locals.db;
+
+            console.log(res.locals)
+            const token = jwtAuth.sign(res.locals.username)
+
+            res.cookie("token", token, {
+                maxAge: jwtAuth.jwtExpirySeconds * 1000
+            })
+
+
+            res.render("dashboard.ejs")
+    
+        })();
+    },
+
     userLogin: (req, res, next) => {
         let db = req.app.locals.db;
         console.log("body ->", req.body)
@@ -66,6 +83,9 @@ module.exports = {
                         res.cookie("token", token, {
                             maxAge: jwtAuth.jwtExpirySeconds * 1000
                         })
+
+                        console.log(res.locals.username)
+                       return  res.redirect('/dashboard');
                         res.json({
                             status: "200",
                             message: "success",

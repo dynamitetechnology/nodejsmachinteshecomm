@@ -7,15 +7,39 @@ const {
 module.exports = {
 
     getDashboard: (req, res, next) => {
-        res.json({
-            status: "200",
-            message: "Welcome to Home Page"
-        })
+        ;
+        (async () => {
+            let db = req.app.locals.db;
+            const token = req.cookies.token;
+            let errors = validationResult(req);
+
+            let payload = jwt.verify(token, process.env.JWT_SECRET)
+            console.log('payload-------->', payload)
+
+
+            res.render("dashboard.ejs")
+        })();
+    },
+
+    addproduct:(req, res, next)=>{
+        ;
+        (async () => {
+            let db = req.app.locals.db;
+            const token = req.cookies.token;
+            let errors = validationResult(req);
+
+            let payload = jwt.verify(token, process.env.JWT_SECRET)
+            console.log('payload-------->', payload)
+
+
+            res.render("addproducts.ejs")
+        })();
     },
 
     getuserdetail: (req, res, next) => {
-       
-        ;(async () => {
+
+        ;
+        (async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -50,9 +74,10 @@ module.exports = {
         })()
     },
 
-    addpost:(req,res,next)=>{
+    addpost: (req, res, next) => {
 
-        ;(async()=>{
+        ;
+        (async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -80,9 +105,10 @@ module.exports = {
     },
 
 
-    userpostlist:(req,res,next)=>{
+    userpostlist: (req, res, next) => {
 
-        ;(async()=>{
+        ;
+        (async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -103,7 +129,8 @@ module.exports = {
 
             res.json({
                 status: 200,
-                message: "success",userpost:userpost
+                message: "success",
+                userpost: userpost
             })
 
         })()

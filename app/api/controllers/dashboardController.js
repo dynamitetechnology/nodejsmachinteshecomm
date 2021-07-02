@@ -7,8 +7,9 @@ const {
 module.exports = {
 
     getDashboard: (req, res, next) => {
-        
-        ;(async () => {
+
+        ;
+        (async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -28,13 +29,16 @@ module.exports = {
                     return resolve(user)
                 })
             });
-console.log(productList)
-            res.render("dashboard.ejs",{productList:productList})
+            console.log(productList)
+            res.render("dashboard.ejs", {
+                productList: productList
+            })
         })();
     },
 
-    addproduct:(req, res, next)=>{
-        ;(async () => {
+    addproduct: (req, res, next) => {
+        ;
+        (async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -44,12 +48,13 @@ console.log(productList)
         })();
     },
 
-    deleteproduct: (req,res,next) => {
-        ;(async () => {
+    deleteproduct: (req, res, next) => {
+        ;
+        (async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
-console.log("Hello Print")
+            console.log("Hello Print")
             let productList = await new Promise(function (resolve) {
                 const stmt = {
                     text: `delete FROM products where id = $1`,
@@ -61,11 +66,37 @@ console.log("Hello Print")
                     return resolve(user)
                 })
             });
-        console.log(productList)
-            res.json({"status":"200"});
+            console.log(productList)
+            res.json({
+                "status": "200"
+            });
+
+        })();
+    },
+
+    getproduct: (req, res, next) => {
+        ;
+        (async () => {
+            let db = req.app.locals.db;
+            const token = req.cookies.token;
+            let errors = validationResult(req);
+            console.log("Hello Print")
+            let productList = await new Promise(function (resolve) {
+                const stmt = {
+                    text: `SELECT id,product_name,product_price,stock,product_description,product_image FROM products where id = $1`,
+                    values: [req.body.prid]
+                }
+                db.query(stmt, async function (err, result) {
+                    if (err) throw err;
+                    let user = await result.rows[0];
+                    return resolve(user)
+                })
+            });
+            console.log(productList)
+            res.json(productList);
 
         })();
     }
 
-    
+
 }

@@ -7,39 +7,34 @@ const {
 module.exports = {
 
     getDashboard: (req, res, next) => {
-        ;
-        (async () => {
+        
+        ;(async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
 
             let payload = jwt.verify(token, process.env.JWT_SECRET)
             console.log('payload-------->', payload)
-
-
             res.render("dashboard.ejs")
         })();
     },
 
     addproduct:(req, res, next)=>{
-        ;
-        (async () => {
+        
+        ;(async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
 
             let payload = jwt.verify(token, process.env.JWT_SECRET)
             console.log('payload-------->', payload)
-
-
             res.render("addproducts.ejs")
         })();
     },
 
     getuserdetail: (req, res, next) => {
 
-        ;
-        (async () => {
+        ;(async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -47,7 +42,7 @@ module.exports = {
             let payload = jwt.verify(token, process.env.JWT_SECRET)
             console.log('payload-------->', payload)
 
-            if (req.body.email == payload.username) {
+            // if (req.body.email == payload.username) {
                 let userinfo = await new Promise(function (resolve) {
                     const stmt = {
                         text: `select  name, email, phone, password, image from  users where email = $1`,
@@ -65,19 +60,18 @@ module.exports = {
                     message: "success",
                     userinfo: userinfo
                 })
-            } else {
-                res.json({
-                    status: 200,
-                    message: "Invalid Token"
-                })
-            }
+            // } else {
+            //     res.json({
+            //         status: 200,
+            //         message: "Invalid Token"
+            //     })
+            // }
         })()
     },
 
     addpost: (req, res, next) => {
 
-        ;
-        (async () => {
+        ;(async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -107,8 +101,7 @@ module.exports = {
 
     userpostlist: (req, res, next) => {
 
-        ;
-        (async () => {
+        ;(async () => {
             let db = req.app.locals.db;
             const token = req.cookies.token;
             let errors = validationResult(req);
@@ -132,7 +125,6 @@ module.exports = {
                 message: "success",
                 userpost: userpost
             })
-
         })()
     }
 }

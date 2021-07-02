@@ -22,6 +22,13 @@ module.exports = {
     },
 
 
+
+    getRegPage: (req,res,next)=>{ (async () => {
+
+        res.render("reguser.ejs")
+
+    })();},
+
     userLogin: (req, res, next) => {
         let db = req.app.locals.db;
         console.log("body ->", req.body)
@@ -30,7 +37,7 @@ module.exports = {
 
             let userData = await new Promise(resolve => {
                 const userStmt = {
-                    text: `select name, email, phone,password FROM users WHERE email = $1`,
+                    text: `select name, email, mobile,password FROM users WHERE email = $1 or mobile = $1`,
                     values: [req.body.username]
                 }
                 db.query(userStmt, async (err, obj) => {
@@ -82,63 +89,64 @@ module.exports = {
 
     },
 
-    // register: (req, res, next) => {
-    //     let db = req.app.locals.db;
-    //     let loginToken = req.cookies.token;
-    //     let errors = validationResult(req);
-    //         let userInputObj = {
-    //             email: req.body.email
-    //         };
+    register: (req, res, next) => {
+        let db = req.app.locals.db;
+        let loginToken = req.cookies.token;
+        let errors = validationResult(req);
+            let userInputObj = {
+                email: req.body.email
+            };
 
-    //         (async () => {
+            (async () => {
 
-    //             let emailCount = await new Promise(function (resolve) {
-    //                 const stmtCheckEmail = {
-    //                     text: "SELECT COUNT(id) FROM users WHERE email = $1",
-    //                     values: [req.body.email]
-    //                 }
-    //                 db.query(stmtCheckEmail, async function (err, result) {
-    //                     if (err) throw err;
-    //                     let emailCount = await result.rows[0].count
-    //                     return resolve(emailCount)
-    //                 })
-    //             });
+                let emailCount = await new Promise(function (resolve) {
+                    const stmtCheckEmail = {
+                        text: "SELECT COUNT(id) FROM users WHERE email = $1 or mobile  = $1",
+                        values: [req.body.email]
+                    }
+                    db.query(stmtCheckEmail, async function (err, result) {
+                        if (err) throw err;
+                        let emailCount = await result.rows[0].count
+                        return resolve(emailCount)
+                    })
+                });
 
-    //             let checkUniqueness = await new Promise(function (resolve) {
-    //                 if (emailCount != 0) {
-    //                     res.json({
-    //                         isEmailUnique: 'no',
-    //                         msg: 'This email is already taken.',
-    //                         userInput: userInputObj
-    //                     });
-    //                 } else {
-    //                     return resolve(1);
-    //                 }
-    //             });
+                let checkUniqueness = await new Promise(function (resolve) {
+                    if (emailCount != 0) {
+                        res.json({
+                            isEmailUnique: 'no',
+                            msg: 'This email is already taken.',
+                            userInput: userInputObj
+                        });
+                    } else {
+                        return resolve(1);
+                    }
+                });
 
-    //             let bcryptPassword = await new Promise(async (resolve) => {
-    //                 let hashedPwd = await bcrypt.hash(req.body.password, saltRounds);
-    //                 return resolve(hashedPwd);
-    //             });
+                let bcryptPassword = await new Promise(async (resolve) => {
+                    let hashedPwd = await bcrypt.hash(req.body.password, saltRounds);
+                    return resolve(hashedPwd);
+                });
 
-    //             console.log("EMAIL",req.body.email)
+                console.log("EMAIL",req.body.email)
 
-    //             let insertUser = await new Promise(function (resolve) {
-    //                 const stmt = {
-    //                     text: `insert into users (name, email, phone, password, image) values($1, $2, $3, $4, $5)`,
-    //                     values: [req.body.name, req.body.email, req.body.phone, bcryptPassword, req.body.image]
-    //                 }
-    //                 db.query(stmt, async function (err, result) {
-    //                     if (err) throw err;
-    //                     let user = await result.rows[0];
-    //                     return resolve(user)
-    //                 })
-    //             });
+                let insertUser = await new Promise(function (resolve) {
+                    const stmt = {
+                        text: `insert into users (name, email, mobile, password) values($1, $2, $3, $4)`,
+                        values: [req.body.name, req.body.email, req.body.mobile, bcryptPassword]
+                    }
+                    db.query(stmt, async function (err, result) {
+                        if (err) throw err;
+                        let user = await result.rows[0];
+                        return resolve(user)
+                    })
+                });
 
-    //            res.json({"status":200,"message":"user create successfully"})
+               //res.json({"status":200,"message":"user create successfully"})
+               res.render("index.ejs",{"status":200,"message":"user create successfully"})
 
-    //         })()
-    // },
+            })()
+    },
 
 
   

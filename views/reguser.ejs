@@ -64,15 +64,19 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
-            <form class="form-signin" action="/user/login" method="POST">
+            <form class="form-signin" action="/user/register" method="POST">
                 <!-- <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
-                <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
-                <label >Email address</label>
-                <input type="text" name="username" class="form-control" placeholder="Email and Phone" required autofocus>
+                <h1 class="h3 mb-3 font-weight-normal">Please Signin</h1>
+                <label >Enter Your Name</label>
+                <input type="text" name="name" class="form-control" required autofocus>
+                <label >Enter Your Email</label>
+                <input type="email" name="email" class="form-control" required autofocus>
+                <label >Enter Your Mobile Number</label>
+                <input type="text" name="mobile" class="form-control" required autofocus>
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login in</button>          
-                <a href="/user/regpage">Create Account</a>   
+                <a href="/">Login</a>   
               </form>
         </div>
     </div>
